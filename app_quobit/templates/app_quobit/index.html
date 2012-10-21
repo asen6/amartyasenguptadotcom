@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+    	<title>quobit</title>
 		<!-- Bootstrap -->
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="/media/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="/media/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    	<link type="text/css" rel="stylesheet" href="/media/stylesheets/main.css" />
-    	<link type="text/css" rel="stylesheet" href="/media/stylesheets/quobit.css" />
-    	<title>amartyasengupta &#187; quobit</title>
+		<link href="/site_media/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/site_media/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<!-- Custom CSS files -->
+    	<link type="text/css" rel="stylesheet" href="/site_media/static/stylesheets/main.css" />
+    	<link type="text/css" rel="stylesheet" href="/site_media/static/css/quobit.css" />
+    	<!-- Typekit -->
     	<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		<!-- Javascript -->
+		<script src="/site_media/static/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/site_media/static/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
 		<!-- Google Analytics -->
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
@@ -32,20 +37,23 @@
 				</div>
 			</div>
 
-
 	  		<!-- Body -->
 		  	<div id="quobit_body">
 		  		
 		  		<!-- Posts -->
 				<div id="qposts_area">
-					<form id="qposts_postform" action="/projects/quobit/send_qpost/" method="post">
-						<textarea id="qposts_posttext" name="new_qpost_text" rows="3"></textarea>
-						<button id="qposts_postbtn" type="submit" class="btn">Post</button>
-					</form>
+					<!-- OLD
+						<form id="qposts_postform" action="/projects/quobit/send_qpost/" method="post">
+							<textarea id="qposts_posttext" name="new_qpost_text" rows="3"></textarea>
+							<button id="qposts_postbtn" type="submit" class="btn">Post</button>
+						</form>
+					-->
+					<textarea id="qposts_posttext" name="new_qpost_text" rows="3"></textarea>
+					<button id="qposts_postbtn" type="submit" class="btn">Post</button>
 					<div id="qposts">
 						{% if latest_qposts_list %}
 							{% for qpost in latest_qposts_list %}
-							<div class="qpost">
+							<div id="qpost">
 								<div class="qpost_content">{{ qpost.content }}</div>
 								<div class="qpost_details">
 									<span class="qpost_author">{{ qpost.author }} | </span>
@@ -68,7 +76,7 @@
 							<div id="qreplies_scroller">
 								{% if latest_qreplies_list %}
 									{% for qreply in latest_qreplies_list %}
-									<div class="qreply row-fluid">
+									<div id="qreply" class="row-fluid">
 										<div class="qreply_content span9">{{ qreply.content }}</div>
 										<div class="qreply_details span3">
 											<span class="qreply_author">{{ qreply.author }}</span>

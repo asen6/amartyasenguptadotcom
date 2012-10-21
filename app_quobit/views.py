@@ -48,3 +48,13 @@ def enter_qreply(request, qpost_id):
 		qreply = QReply(content=request.POST['new_qreply_text'], qpost=selected_qpost)
 		qreply.save()
 	return HttpResponseRedirect('/projects/quobit/qpost_replies/'+qpost_id+'/')
+
+
+
+
+
+
+
+
+
+

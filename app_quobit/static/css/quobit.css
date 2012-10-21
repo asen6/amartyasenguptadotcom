@@ -57,9 +57,13 @@ body {
 
 #qposts_postbtn{}
 
-.qpost{
+#qpost{
 	margin-top:10px;
 	margin-bottom:10px;
+}
+
+#qpost:hover{
+  background-color:#ffffff;
 }
 
 .qpost_content{
@@ -156,7 +160,7 @@ body {
 	width:15%;
 }
 
-.qreply{
+#qreply{
 	margin-top:10px;
 	margin-bottom:10px;
 }
