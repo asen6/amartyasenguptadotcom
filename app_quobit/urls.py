@@ -9,7 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('app_quobit.views',
     (r'^$', 'discussion'),
-    (r'^qpost_replies/(?P<qpost_id>\d+)/$', 'post_detail'),
     (r'^send_qpost/$', 'enter_qpost'),
-    (r'^qpost_replies/(?P<qpost_id>\d+)/send_qreply/$', 'enter_qreply')
+    (r'^send_qreply/$', 'enter_qreply'),
+    (r'^get_all_qposts_and_qreplies/$', 'get_all_qposts_and_qreplies')
 )

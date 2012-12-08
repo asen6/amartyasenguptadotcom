@@ -39,6 +39,37 @@ body {
 	-moz-box-sizing:border-box;
 }
 
+/*----- login ----*/
+
+#login_area{
+	position:fixed;
+	top:0px;
+	width:100%;
+	height:100%;
+	z-index:100;
+	display:none;
+}
+
+#login_overlay{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0px;
+	background-color:black;
+	opacity:0.8;
+	z-index:1;
+}
+
+#login{
+	background-color:white;
+	border:thin solid #ccc;
+	display:table;
+	margin:15em auto;
+	padding:3em;
+	position:relative;
+	z-index:2;
+}
+
 /*----- qposts ----*/
 
 #qposts_area{
@@ -49,6 +80,11 @@ body {
 
 #qposts{}
 
+#qposts .spacer{
+  height:0.1em;
+  clear:both;
+}
+
 #qposts_postform{}
 
 #qposts_posttext{
@@ -57,13 +93,18 @@ body {
 
 #qposts_postbtn{}
 
-#qpost{
+.qpost{
 	margin-top:10px;
 	margin-bottom:10px;
+	cursor:pointer;
 }
 
-#qpost:hover{
+.qpost:hover{
   background-color:#ffffff;
+}
+
+.qpost.selected {
+	background-color:#f5f5dc !important;
 }
 
 .qpost_content{
@@ -160,7 +201,7 @@ body {
 	width:15%;
 }
 
-#qreply{
+.qreply{
 	margin-top:10px;
 	margin-bottom:10px;
 }

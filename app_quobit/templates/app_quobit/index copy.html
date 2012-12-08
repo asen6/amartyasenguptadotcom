@@ -16,7 +16,7 @@
 		<script src="/site_media/static/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/site_media/static/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/site_media/static/js/qpost.js" type="text/javascript" charset="utf-8"></script>
-		<!-- Google Analytics
+		<!-- Google Analytics -->
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-35201804-1']);
@@ -28,31 +28,13 @@
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
 		</script>
-		-->
 	</head>
 	<body>
 		<div class="quobit_container">
-
-			<!-- Login -->
-			<div id="login_area">
-				<div id="login_overlay"></div>
-				<div id="login">
-					<div id="simple_name_form" class="form-horizontal">
-						<legend>Get Started</legend>
-						<label>Please enter your full name below</label>
-						<input id="username_text" type="text" name="name_text" placeholder="Full name">
-						<button id="login_btn" type="submit" class="btn">Submit</button>
-					</div>
-				</div>
-			</div>
-
 			<!-- Navbar -->
 			<div class="navbar navbar-inverse quobit_navbar">
 				<div class="navbar-inner">
 					<a class="brand" href="#">quobit</a>
-					<ul class="nav pull-right">
-						<li><a id="signout_link" href="#">sign out</a></li>
-					</ul>
 				</div>
 			</div>
 
@@ -63,7 +45,26 @@
 				<div id="qposts_area">
 					<textarea id="qposts_posttext" name="new_qpost_text" rows="3"></textarea>
 					<button id="qposts_postbtn" type="submit" class="btn">Post</button>
-					<div id="qposts"></div>
+					<div id="qposts">
+						<!--
+						{% if latest_qposts_list %}
+							{% for qpost in latest_qposts_list %}
+							<div id="qpost">
+								<div class="qpost_content">{{ qpost.content }}</div>
+								<div class="qpost_details">
+									<span class="qpost_author">{{ qpost.author }} | </span>
+									<span class="qpost_date">{{ qpost.published_on }}</span>
+									<span><a href="/projects/quobit/qpost_replies/{{ qpost.id }}/">-----></a>
+									</span>
+								</div>
+							</div>
+							{% endfor %}
+						{% else %}
+							<p>No posts are available.</p>
+						{% endif %}
+						-->
+
+					</div>
 				</div>
 
 			  	<!-- Replies -->
@@ -71,12 +72,28 @@
 			  		<div id="qreplies_content">
 						<div id="qreplies_spacer">
 							<div id="qreplies_scroller">
-								<div id="qreplies"></div>
+								<div id="qreplies">
+									<!--
+									{% if latest_qreplies_list %}
+										{% for qreply in latest_qreplies_list %}
+										<div id="qreply" class="row-fluid">
+											<div class="qreply_content span9">{{ qreply.content }}</div>
+											<div class="qreply_details span3">
+												<span class="qreply_author">{{ qreply.author }}</span>
+											</div>
+										</div>
+										{% endfor %}
+									{% else %}
+										<p>No replies are available.</p>
+									{% endif %}-->
+								</div>
 							</div>
 						</div>
 						<div id="qreplies_replytextboxarea">
-							<textarea id="qreplies_replytext" name="new_qreply_text" rows="3"></textarea>
-							<button id="qreplies_replybtn" type="submit" class="btn">Reply</button>
+					  		<form class="qreplies_replyform" action="/projects/quobit/qpost_replies/{{ selected_qpost.id }}/send_qreply/" method="post">
+								<textarea id="qreplies_replytext" name="new_qreply_text" rows="3"></textarea>
+								<button id="qreplies_replybtn" type="submit" class="btn">Reply</button>
+							</form>
 						</div>
 					</div>
 				</div>
