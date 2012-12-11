@@ -70,6 +70,16 @@ body {
 	z-index:2;
 }
 
+.error_msg{
+	color:red;
+}
+
+#signin_form{
+}
+
+#register_form{
+}
+
 /*----- qposts ----*/
 
 #qposts_area{

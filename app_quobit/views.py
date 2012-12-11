@@ -20,7 +20,7 @@ import time
 
 
 
-from app_quobit.models import QPost, QReply
+from app_quobit.models import QPost, QReply, User
 
 
 def discussion(request):
@@ -42,6 +42,58 @@ def discussion(request):
 # 		{'latest_qposts_list': latest_qposts_list,
 # 		'latest_qreplies_list': latest_qreplies_list,
 # 		'selected_qpost': selected_qpost})
+
+def register_user(request):
+	if request.method == 'POST':
+		new_email = request.POST.get('email')
+		new_password = request.POST.get('password')
+		new_username = request.POST.get('username')
+
+		# search for user in database
+		email_matches_list = User.objects.filter(email=new_email)
+		if len(email_matches_list) > 0:
+			error_code = 1
+			items_to_return = {'error_code':error_code}
+			return HttpResponse(json.dumps(items_to_return))
+
+		# add user to database
+		new_user = User(username=new_username, email=new_email, password=new_password)
+		new_user.save()
+		error_code = 0
+		items_to_return = {'error_code':error_code}
+		return HttpResponse(json.dumps(items_to_return))
+	else:
+		return HttpResponse()
+
+def signin_user(request):
+	if request.method == 'POST':
+		new_email = request.POST.get('email')
+		new_password = request.POST.get('password')
+		username = ""
+
+		# search for user in database
+		email_matches_list = User.objects.filter(email=new_email)
+		if len(email_matches_list) == 0:
+			# user wasn't found, so return
+			error_code = 1
+			items_to_return = {'error_code':error_code}
+			return HttpResponse(json.dumps(items_to_return))
+
+		# check if password matches
+		error_code = 2
+		items_to_return = {'error_code':error_code}
+		for user in email_matches_list:
+			if user.password == new_password:
+				error_code = 0
+				username = user.username
+				items_to_return = {'error_code':error_code, 'username': username}
+
+		return HttpResponse(json.dumps(items_to_return))
+	else:
+		return HttpResponse()
+
+
+
 
 def enter_qpost(request):
 	if request.method == 'POST':

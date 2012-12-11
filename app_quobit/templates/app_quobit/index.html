@@ -9,14 +9,14 @@
 		<!-- Custom CSS files -->
     	<link type="text/css" rel="stylesheet" href="/site_media/static/stylesheets/main.css" />
     	<link type="text/css" rel="stylesheet" href="/site_media/static/css/quobit.css" />
-    	<!-- Typekit 
+    	<!-- Typekit  -->
     	<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script> -->
 		<!-- Javascript -->
 		<script src="/site_media/static/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/site_media/static/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/site_media/static/js/qpost.js" type="text/javascript" charset="utf-8"></script>
-		<!-- Google Analytics
+		<!-- Google Analytics -->
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-35201804-1']);
@@ -37,11 +37,28 @@
 			<div id="login_area">
 				<div id="login_overlay"></div>
 				<div id="login">
-					<div id="simple_name_form" class="form-horizontal">
-						<legend>Get Started</legend>
-						<label>Please enter your full name below</label>
-						<input id="username_text" type="text" name="name_text" placeholder="Full name">
-						<button id="login_btn" type="submit" class="btn">Submit</button>
+					<div class="row">
+						<div id="signin_form" class="span5">
+							<legend>Sign in</legend>
+							<div id="signin_error" class="error_msg"></div>
+							<label>Email</label>
+							<input id="signin_email" type="text" name="name_signin_email" placeholder="Email">
+							<label>Password</label>
+							<input id="signin_password" type="text" name="name_signin_password" placeholder="Password">
+							<button id="signin_btn" type="submit" class="btn">Sign in</button>
+						</div>
+						<div id="login_separator" class="span2"></div>
+						<div id="register_form" class="span5">
+							<legend>Register</legend>
+							<div id="register_error" class="error_msg"></div>
+							<label>Email</label>
+							<input id="register_email" type="text" name="name_register_email" placeholder="Email">
+							<label>Password</label>
+							<input id="register_password" type="text" name="name_register_password" placeholder="Password">
+							<label>Full Name</label>
+							<input id="register_username" type="text" name="name_register_username" placeholder="Full name">
+							<div><button id="register_btn" type="submit" class="btn">Register</button></div>
+						</div>
 					</div>
 				</div>
 			</div>

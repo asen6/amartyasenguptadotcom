@@ -1,11 +1,26 @@
 //index.js
 
-// CURRSPOT: Make login container look right.  implement simple login.
-
 // PROJECTS TO DO
-// Register and sign in
+// --> Register and sign in
+//			--> Appears to work.  Need to do more testing
 // Remember user by cookie
+// Encrypt password
 // Add events concept
+
+
+// 		TABLE OF CONTENTS
+// 		0. Global Variables
+// 		1. Event Handlers
+// 		2. Main
+// 		3. Auxiliary Functions
+
+
+
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// 				0. Global Variables
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 
 // Constants
@@ -43,11 +58,20 @@ var collapse_seconds = 50;
 // variables for dealing with rebuilding the chat area
 var rebuild_chat = false;
 
+
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// 				1. Event Handlers
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+
+
 // Page ready handler
 function init() {
 
 	// Set up event handlers
-	$("#login_btn").click(login_clicked);
+	$("#signin_btn").click(signin_clicked);
+	$("#register_btn").click(register_clicked);
 	$("#qposts_postbtn").click(post_clicked);
 	$("#qreplies_replybtn").click(reply_clicked);
 	$("#signout_link").click(signout_clicked);
@@ -74,6 +98,163 @@ function init() {
 }
 $(document).ready(init);
 
+
+// Event handler for clicking the register button
+function register_clicked(){
+	var email_text = escape($("#register_email")[0].value);
+	var password_text = escape($("#register_password")[0].value);
+	var name_text = escape($("#register_username")[0].value);
+
+	var error_msg = "";
+
+	// Return if something is missing
+	if ((email_text == '') || (password_text == '') || (name_text == '')) {
+		error_msg = "Error: Please fill out all of the fields";
+		$("#register_error").html(error_msg);
+		return;
+	}
+
+	// Return if email is in improper format
+	if (verifyEmail(email_text) == false) {
+		error_msg = "Error: Please enter a valid email address";
+		$("#register_error").html(error_msg);
+		return;
+	}
+
+	// Add user to database
+	$.post(base_url + "register/", "email=" + email_text + "&password=" + password_text + "&username=" + name_text, function(data, status, xhr) {
+		
+		if (data['error_code'] == 0) {
+			$("#register_email")[0].value = '';
+			$("#register_password")[0].value = '';
+			$("#register_username")[0].value = '';
+			signin(email_text, password_text);
+		} else if (data['error_code'] == 1) {
+			error_msg = "Error: Email already registered";
+		} else {
+			error_msg = "Error: Unknown";
+		}
+
+		$("#register_error").html(error_msg);
+
+	}, "json");
+}
+
+// Event handler for clicking the signin button
+function signin_clicked(){
+	var email = escape($("#signin_email")[0].value);
+	var password = escape($("#signin_password")[0].value);
+	signin(email, password);
+}
+
+function signin(email, password){
+	// Return if there is no text
+	if ((email == '') || (password == '')) {
+		error_msg = "Error: Please fill out all of the fields";
+		$("#signin_error").html(error_msg);
+		return;
+	}
+
+	// Check if the user is in the database
+	$.post(base_url + "signin/", "email=" + email + "&password=" + password, function(data, status, xhr) {
+		var error_msg = "";
+		if (data['error_code'] == 0) {
+			// Update username
+			username = data['username'];
+
+			// Hide login area
+			$("#signin_email")[0].value = '';
+			$("#signin_password")[0].value = '';
+			hide_login();
+		} else if (data['error_code'] == 1) {
+			error_msg = "Error: Email is not registered";
+		} else if (data['error_code'] == 2) {
+			error_msg = "Error: Incorrect password";
+		} else {
+			error_msg = "Error: Unknown";
+		}
+
+		$("#signin_error").html(error_msg);
+
+	}, "json");
+
+}
+
+function signout_clicked(){
+	username = null;
+	show_login();
+}
+
+// Event handler for clicking the post button
+function post_clicked(){
+	var qpost_text = escape($("#qposts_posttext")[0].value);
+	var raw_qpost_text = $("#qposts_posttext")[0].value;
+
+	// Return if there is no text
+	if (qpost_text == '') { return;}
+
+	// Add qpost to database
+	$.post(base_url + "send_qpost/", "new_qpost_text=" + qpost_text + "&username=" + username, function(data, status, xhr) {
+		// change id of the qpost added above to the one given to it by the server
+		if (data['qpost_id'] >= 0) {
+			var actual_qpost_id = data['qpost_id'];
+			var qpost = new QPost(actual_qpost_id, username, raw_qpost_text, get_unixtime_js());
+			qposts[actual_qpost_id] = qpost;
+			qpost_ids.push(actual_qpost_id);
+
+			qposts_changed();
+			$("#qposts_posttext")[0].value = ""; // only clears if the qpost went through OK
+		} else {
+
+		}
+
+		update_request = null;
+		update_timeout = window.setTimeout(function() { request_update(); }, POLL_TIMEOUT);
+	}, "json");
+}
+
+// Event handler for clicking the reply button
+function reply_clicked(){
+	var qpost_id_here = current_chat_id;
+
+	var qreply_text = escape($("#qreplies_replytext")[0].value);
+	var raw_qreply_text = $("#qreplies_replytext")[0].value;
+
+	// Return if there is no text
+	if (qreply_text == "") { return;}
+
+	// let something happen if there is a current chat id
+	if (current_chat_id != -1) {
+		// Add qreply to the database
+		$.post(base_url + "send_qreply/", "qpost_id=" + qpost_id_here + "&new_qreply_text=" + qreply_text + "&username=" + username, function(data, status, xhr) {
+			// change id of qreply added above to the one given to it by the server
+			if (data['qreply_id'] >= 0) {
+				var actual_qreply_id = data['qreply_id'];
+				
+				var qreply = new QReply(actual_qreply_id, qpost_id_here, username, raw_qreply_text, get_unixtime_js());
+
+				var new_qreplies_objects = [];
+				new_qreplies_objects.push(qreply);
+				//qposts[qpost_id_here].add_qreplies(new_qreplies_objects);
+
+				qposts_changed();
+			} else {
+
+			}
+			update_request = null;
+			update_timeout = window.setTimeout(function() { request_update(); }, POLL_TIMEOUT);
+		}, "json");
+		$("#qreplies_replytext")[0].value = "";
+	}
+}
+
+
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// 				2. Main
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+
 function initial_callback() {
 	if (qpost_ids.length > 0) {
 		set_current_qpost(qpost_ids[qpost_ids.length - 1]);
@@ -88,17 +269,6 @@ function initial_callback() {
 	}
 }
 
-// Takes two jquery selectors for text fields and buttons and maps the
-// enter key for those fields to click the buttons.
-function bind_to_enter(text, button) {
-	$(text).keypress(function(e) {
-		if (e.which == 13) {
-		$(button)[0].click();
-		return false;
-		}
-	});
-}
-
 // Show login overlay
 function show_login() {
 	$("#login_area").fadeIn();
@@ -107,6 +277,29 @@ function show_login() {
 // Hide login overlay
 function hide_login() {
 	$("#login_area").fadeOut();
+}
+
+
+// TODO
+function request_update(interrupt, callback) {
+	// TODO: multiple event handling stuff...
+
+	if (update_request && interrupt) {
+		update_request.abort();
+		update_request = null;
+	}
+
+	if (update_timeout) {
+		window.clearTimeout(update_timeout);
+		update_timeout == null;
+	}
+	get_updates(callback);
+}
+
+// function to clear the update_timeout
+function abort_update() {
+	window.clearTimeout(update_timeout);
+	update_timeout = null;
 }
 
 // Update posts
@@ -420,6 +613,25 @@ function update_qreply_div(qreply){
 	// TODO: Like count stuff...
 }
 
+
+
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// 				3. Auxiliary Functions
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+
+// Takes two jquery selectors for text fields and buttons and maps the
+// enter key for those fields to click the buttons.
+function bind_to_enter(text, button) {
+	$(text).keypress(function(e) {
+		if (e.which == 13) {
+		$(button)[0].click();
+		return false;
+		}
+	});
+}
+
 // Replaces hyperlinks in a string with <a href> tags
 function detect_links(text){
 	var result = "";
@@ -485,112 +697,13 @@ function get_unixtime_js() {
 	return unixtime;
 }
 
-// TODO
-function request_update(interrupt, callback) {
-	// TODO: multiple event handling stuff...
-
-	if (update_request && interrupt) {
-		update_request.abort();
-		update_request = null;
+function verifyEmail(email){
+	var status = false;     
+	var emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+	if (email.search(emailRegEx) == -1) {
 	}
-
-	if (update_timeout) {
-		window.clearTimeout(update_timeout);
-		update_timeout == null;
+	else {
+		status = true;
 	}
-	get_updates(callback);
+	return status;
 }
-
-// function to clear the update_timeout
-function abort_update() {
-	window.clearTimeout(update_timeout);
-	update_timeout = null;
-}
-
-// Event handler for clicking the login button
-function login_clicked(){
-	var name_text = escape($("#username_text")[0].value);
-	var raw_name_text = $("#username_text")[0].value;
-
-	// Return if there is no text
-	if (name_text == '') { return;}
-
-	// Update username
-	username = raw_name_text;
-
-	// Hide login area
-	$("#username_text")[0].value = '';
-	hide_login();
-}
-
-function signout_clicked(){
-	username = null;
-	show_login();
-}
-
-// Event handler for clicking the post button
-function post_clicked(){
-	var qpost_text = escape($("#qposts_posttext")[0].value);
-	var raw_qpost_text = $("#qposts_posttext")[0].value;
-
-	// Return if there is no text
-	if (qpost_text == '') { return;}
-
-	// Add qpost to database
-	$.post(base_url + "send_qpost/", "new_qpost_text=" + qpost_text + "&username=" + username, function(data, status, xhr) {
-		// change id of the qpost added above to the one given to it by the server
-		if (data['qpost_id'] >= 0) {
-			var actual_qpost_id = data['qpost_id'];
-			var qpost = new QPost(actual_qpost_id, username, raw_qpost_text, get_unixtime_js());
-			qposts[actual_qpost_id] = qpost;
-			qpost_ids.push(actual_qpost_id);
-
-			qposts_changed();
-			$("#qposts_posttext")[0].value = ""; // only clears if the qpost went through OK
-		} else {
-
-		}
-
-		update_request = null;
-		update_timeout = window.setTimeout(function() { request_update(); }, POLL_TIMEOUT);
-	}, "json");
-}
-
-// Event handler for clicking the reply button
-function reply_clicked(){
-	var qpost_id_here = current_chat_id;
-
-	var qreply_text = escape($("#qreplies_replytext")[0].value);
-	var raw_qreply_text = $("#qreplies_replytext")[0].value;
-
-	// Return if there is no text
-	if (qreply_text == "") { return;}
-
-	// let something happen if there is a current chat id
-	if (current_chat_id != -1) {
-		// Add qreply to the database
-		$.post(base_url + "send_qreply/", "qpost_id=" + qpost_id_here + "&new_qreply_text=" + qreply_text + "&username=" + username, function(data, status, xhr) {
-			// change id of qreply added above to the one given to it by the server
-			if (data['qreply_id'] >= 0) {
-				var actual_qreply_id = data['qreply_id'];
-				
-				var qreply = new QReply(actual_qreply_id, qpost_id_here, username, raw_qreply_text, get_unixtime_js());
-
-				var new_qreplies_objects = [];
-				new_qreplies_objects.push(qreply);
-				//qposts[qpost_id_here].add_qreplies(new_qreplies_objects);
-
-				qposts_changed();
-			} else {
-
-			}
-			update_request = null;
-			update_timeout = window.setTimeout(function() { request_update(); }, POLL_TIMEOUT);
-		}, "json");
-		$("#qreplies_replytext")[0].value = "";
-	}
-}
-
-
-
-
