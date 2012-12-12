@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<!-- Loading static files location prefix -->
-		{% load static %}
-		{% get_static_prefix as STATIC_PREFIX %}
 		<!-- Bootstrap -->
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="{{ STATIC_PREFIX }}bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="{{ STATIC_PREFIX }}bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    	<link type="text/css" rel="stylesheet" href="{{ STATIC_PREFIX }}stylesheets/main.css" />
+		<link href="/static-collected/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static-collected/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    	<link type="text/css" rel="stylesheet" href="/static-collected/stylesheets/main.css" />
     	<title>amartyasengupta</title>
     	<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -44,15 +41,15 @@
 						<div id="bio_social_links">
 							<span>
 								<a href="https://www.facebook.com/amartya.sengupta" target="_blank">
-									<img src="{{ STATIC_PREFIX }}img/Facebook.png"></a>
+									<img src="/static-collected/img/Facebook.png"></a>
 							</span>
 							<span>
 								<a href="https://twitter.com/amartyasengupta" target="_blank">
-									<img src="{{ STATIC_PREFIX }}img/Twitter.png"></a>
+									<img src="/static-collected/img/Twitter.png"></a>
 							</span>
 							<span>
 								<a href="https://www.linkedin.com/in/amartyasengupta" target="_blank">
-									<img src="{{ STATIC_PREFIX }}img/LinkedIn.png"></a>
+									<img src="/static-collected/img/LinkedIn.png"></a>
 							</span>
 						</div>
 					</div>
@@ -60,7 +57,7 @@
 						<div class="row-fluid">
 							<div class="span1"></div>
 							<div class="span11 center">
-								<img class="img-polaroid" src="{{ STATIC_PREFIX }}img/profile.jpeg">
+								<img class="img-polaroid" src="/static-collected/img/profile.jpeg">
 							</div>
 						</div>
 					</div>

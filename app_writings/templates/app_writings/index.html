@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<!-- Loading static files location prefix -->
-		{% load static %}
-		{% get_static_prefix as STATIC_PREFIX %}
 		<!-- Bootstrap -->
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="{{ STATIC_PREFIX }}bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="{{ STATIC_PREFIX }}bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    	<link type="text/css" rel="stylesheet" href="{{ STATIC_PREFIX }}stylesheets/main.css" />
+		<link href="/static-collected/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static-collected/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    	<link type="text/css" rel="stylesheet" href="/static-collected/stylesheets/main.css" />
     	<title>amartyasengupta &#187; writings</title>
     	<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -33,40 +30,6 @@
 	  			<li class="active"><a href="/writings/">writings</a></li>
 	  			<li><a href="/projects/">projects</a></li>
 	  		</ul>
-
-	  		<!-- Hero Unit -->
-	  		<div class="hero-unit hidden-phone">
-
-	  			<div class="visible-tablet">
-					<div class="row-fluid">
-		  				<div class="span4">
-			  				<img class="img-polaroid" src="{{ STATIC_PREFIX }}img/PopQuizHotshot.gif">
-		  				</div>
-		  				<div class="span1"></div>
-		  				<div class="span7">
-		  					<h1>Pop quiz, hotshot.</h1>
-			  			</div>
-		  			</div>
-		  			<h2>
-		  				<small>What does a 24-year-old Texan expat think about life, art, tech, and sports?</small>
-		  			</h2>
-	  			</div>
-
-	  			<div class="visible-desktop">
-					<div class="row-fluid">
-		  				<div class="span4">
-			  				<img class="img-polaroid" src="{{ STATIC_PREFIX }}img/PopQuizHotshot.gif">
-		  				</div>
-		  				<div class="span1"></div>
-		  				<div class="span7">
-		  					<h1>Pop quiz, hotshot.</h1>
-				  			<h2>
-				  				<small>What does a 24-year-old Texan expat think about life, art, tech, and sports?</small>
-				  			</h2>
-			  			</div>
-		  			</div>
-	  			</div>
-	  		</div>
 
 	  		<!-- Posts -->
 			<div class="posts">

@@ -1,0 +1,240 @@
+/***********************************
+*		Projects - Quobit
+************************************/
+
+html {
+  overflow-x:hidden;
+  height:100%;
+}
+
+body {
+	height:100%;
+}
+
+.quobit_navbar{}
+
+.quobit_container{
+	position:relative;
+	min-width:800px;
+	height:100%;
+	padding:0;
+	margin:0;	
+}
+
+#quobit_body{
+	background-color:#F5F5F5;
+	width:80%;
+	margin-left:10%;
+	margin-right:10%;
+	min-height:85%;
+	padding:0 1.5%;
+	padding-top:20px;
+}
+
+#quobit_body, #quobit_body > div {
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+
+/*----- login ----*/
+
+#login_area{
+	position:fixed;
+	top:0px;
+	width:100%;
+	height:100%;
+	z-index:100;
+	display:none;
+}
+
+#login_overlay{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0px;
+	background-color:black;
+	opacity:0.8;
+	z-index:1;
+}
+
+#login{
+	background-color:white;
+	border:thin solid #ccc;
+	display:table;
+	margin:15em auto;
+	padding:3em;
+	position:relative;
+	z-index:2;
+}
+
+.error_msg{
+	color:red;
+}
+
+#signin_form{
+}
+
+#register_form{
+}
+
+/*----- qposts ----*/
+
+#qposts_area{
+	float:left;
+	width:40%;
+	padding-right:3em;
+}
+
+#qposts{}
+
+#qposts .spacer{
+  height:0.1em;
+  clear:both;
+}
+
+#qposts_postform{}
+
+#qposts_posttext{
+	width:100%;
+}
+
+#qposts_postbtn{}
+
+.qpost{
+	margin-top:10px;
+	margin-bottom:10px;
+	cursor:pointer;
+}
+
+.qpost:hover{
+  background-color:#ffffff;
+}
+
+.qpost.selected {
+	background-color:#f5f5dc !important;
+}
+
+.qpost_content{
+	font-family: "adobe-garamond-pro", Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:400;
+}
+
+.qpost_content a{
+	text-decoration:none;
+}
+
+.qpost_author{
+	font-family: "adobe-garamond-pro", Helvetica, sans-serif;
+	font-size:12px;
+	font-style:bold;
+	font-weight:300;
+	margin-bottom:30px;
+}
+
+.qpost_date{
+	font-family: "adobe-garamond-pro", Helvetica, sans-serif;
+	font-size:12px;
+	font-style:bold;
+	font-weight:300;
+	margin-bottom:30px;
+}
+
+/*----- qreplies ----*/
+
+#qreplies_area{
+	right:11.5%; /* 10% + 1.5% */
+	width:45.6%; /* 57% of 80% */
+	height:100%;
+	padding-top:81px;
+	padding-bottom:15px;
+	top:0;
+	position:fixed;
+  
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+
+#qreplies_content{
+	height:100%;
+	background-color:#f5f5dc;
+	padding:1em;
+
+	font-family: "adobe-garamond-pro", Helvetica, sans-serif;
+  
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+
+#qreplies_spacer{
+	height:100%;
+	padding-bottom:5em;
+
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;  
+}
+
+#qreplies_scroller{
+	height:100%;
+	overflow:auto;
+}
+
+#qreplies_replytextboxarea{
+	padding:1.5em;
+	margin-top:-7.0em;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+
+#qreplies_replyform{}
+
+#qreplies_replytext{
+	width:80%;
+}
+
+#qreplies_replybtn{
+	width:15%;
+}
+
+.qreply{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.qreply_content{
+	font-size:14px;
+	font-weight:400;
+}
+
+.qreply_content a{
+	text-decoration:none;
+}
+
+.qreply_author{
+	font-size:12px;
+	font-style:bold;
+	font-weight:300;
+	margin-bottom:30px;
+}
+
+.qreply_date{
+	font-size:12px;
+	font-style:bold;
+	font-weight:300;
+	margin-bottom:30px;
+}

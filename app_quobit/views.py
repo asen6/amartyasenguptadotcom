@@ -10,9 +10,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, loader
 from django.http import HttpResponse
 
-import json
-from django.core import serializers
-json_serializer = serializers.get_serializer("json")()
+from django.utils import simplejson
+
+# import json
+# from django.core import serializers
+# json_serializer = serializers.get_serializer("json")()
 
 #MEMCACHE_GREETINGS = 'greetings'
 
@@ -54,14 +56,14 @@ def register_user(request):
 		if len(email_matches_list) > 0:
 			error_code = 1
 			items_to_return = {'error_code':error_code}
-			return HttpResponse(json.dumps(items_to_return))
+			return HttpResponse(simplejson.dumps(items_to_return))
 
 		# add user to database
 		new_user = User(username=new_username, email=new_email, password=new_password)
 		new_user.save()
 		error_code = 0
 		items_to_return = {'error_code':error_code}
-		return HttpResponse(json.dumps(items_to_return))
+		return HttpResponse(simplejson.dumps(items_to_return))
 	else:
 		return HttpResponse()
 
@@ -77,7 +79,7 @@ def signin_user(request):
 			# user wasn't found, so return
 			error_code = 1
 			items_to_return = {'error_code':error_code}
-			return HttpResponse(json.dumps(items_to_return))
+			return HttpResponse(simplejson.dumps(items_to_return))
 
 		# check if password matches
 		error_code = 2
@@ -88,7 +90,7 @@ def signin_user(request):
 				username = user.username
 				items_to_return = {'error_code':error_code, 'username': username}
 
-		return HttpResponse(json.dumps(items_to_return))
+		return HttpResponse(simplejson.dumps(items_to_return))
 	else:
 		return HttpResponse()
 
@@ -103,7 +105,7 @@ def enter_qpost(request):
 		qpost.save()
 		qpost_id = qpost.id
 		items_to_return = {'qpost_id': qpost_id}
-		return HttpResponse(json.dumps(items_to_return))
+		return HttpResponse(simplejson.dumps(items_to_return))
 	else:
 		return HttpResponse()
 
@@ -117,7 +119,7 @@ def enter_qreply(request):
 		qreply_id = qreply.id
 		qreply.save()
 		items_to_return = {'qreply_id': qreply_id}
-		return HttpResponse(json.dumps(items_to_return))
+		return HttpResponse(simplejson.dumps(items_to_return))
 	else: 
 		return HttpResponse()
 
@@ -152,7 +154,7 @@ def get_all_qposts_and_qreplies(request):
 
 	items_to_return = {'qposts': qposts, 'qreplies': qreplies}
 
-	return HttpResponse(json.dumps(items_to_return))
+	return HttpResponse(simplejson.dumps(items_to_return))
 
 
 

@@ -19,5 +19,8 @@ handlers:
   static_dir: media/
   expiration: '365d'
 
+- url: /static-collected
+  static_dir: static-collected/
+
 - url: /.*
   script: djangoappengine/main/main.py
