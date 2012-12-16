@@ -1,10 +1,8 @@
 //index.js
 
 // PROJECTS TO DO
-// --> Register and sign in
-//			--> Appears to work.  Need to do more testing
-// Remember user by cookie
-// Encrypt password
+// FB login
+//		--> Implemented basic function - still needs more testing to make sure that signout, signin working properly
 // Add events concept
 
 
@@ -70,8 +68,6 @@ var rebuild_chat = false;
 function init() {
 
 	// Set up event handlers
-	$("#signin_btn").click(signin_clicked);
-	$("#register_btn").click(register_clicked);
 	$("#qposts_postbtn").click(post_clicked);
 	$("#qreplies_replybtn").click(reply_clicked);
 	$("#signout_link").click(signout_clicked);
@@ -181,8 +177,11 @@ function signin(email, password){
 }
 
 function signout_clicked(){
-	username = null;
-	show_login();
+	FB.logout(function(response) {
+		// user is now logged out
+		username = null;
+		window.location.href = base_url;
+	});
 }
 
 // Event handler for clicking the post button
@@ -267,6 +266,32 @@ function initial_callback() {
 		);
 		return false;
 	}
+}
+
+function login() {
+	FB.login(function(response) {
+		if (response.authResponse) {
+			// connected
+			set_user();
+		} else {
+			// cancelled
+		}
+	});
+}
+
+function set_user() {
+	FB.api('/me', function(response) {
+		console.log('Good to see you, ' + response.name + '.');
+		username = response.name;
+	});
+	hide_login();
+}
+
+function testAPI() {
+	console.log('Welcome!  Fetching your information.... ');
+	FB.api('/me', function(response) {
+		console.log('Good to see you, ' + response.name + '.');
+	});
 }
 
 // Show login overlay

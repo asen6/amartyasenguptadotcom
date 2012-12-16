@@ -157,7 +157,8 @@ def get_all_qposts_and_qreplies(request):
 	return HttpResponse(simplejson.dumps(items_to_return))
 
 
-
+def channel(request):
+	return direct_to_template(request, 'app_quobit/channel.html')
 
 
 

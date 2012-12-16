@@ -13,5 +13,6 @@ urlpatterns = patterns('app_quobit.views',
     (r'^signin/$', 'signin_user'),
     (r'^send_qpost/$', 'enter_qpost'),
     (r'^send_qreply/$', 'enter_qreply'),
-    (r'^get_all_qposts_and_qreplies/$', 'get_all_qposts_and_qreplies')
+    (r'^get_all_qposts_and_qreplies/$', 'get_all_qposts_and_qreplies'),
+    (r'^channel/$', 'channel')
 )

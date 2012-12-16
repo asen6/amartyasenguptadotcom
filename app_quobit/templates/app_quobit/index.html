@@ -2,6 +2,8 @@
 <html lang="en">
 	<head>
     	<title>quobit</title>
+    	{% load static %}
+		{% get_static_prefix as STATIC_PREFIX %}
 		<!-- Bootstrap -->
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="/static-collected/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -9,9 +11,10 @@
 		<!-- Custom CSS files -->
     	<link type="text/css" rel="stylesheet" href="/static-collected/stylesheets/main.css" />
     	<link type="text/css" rel="stylesheet" href="/static-collected/css/quobit.css" />
-    	<!-- Typekit  -->
-    	<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
+    	<!-- Typekit  
+		<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		-->
 		<!-- Javascript -->
 		<script src="/static-collected/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/static-collected/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
@@ -30,35 +33,62 @@
 		</script>
 	</head>
 	<body>
+		<!-- FB login code -->
+		<div id="fb-root"></div>
+		<script>
+			// Additional JS functions here
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId      : '500405439981089', // App ID
+					channelUrl : '//www.amartyasengupta.com/projects/quobit/channel', // Channel File
+					status     : true, // check login status
+					cookie     : true, // enable cookies to allow the server to access the session
+					xfbml      : true  // parse XFBML
+				});
+
+				// Additional init code here
+				FB.getLoginStatus(function(response) {
+					if (response.status === 'connected') {
+						// connected
+						set_user();
+					} else if (response.status === 'not_authorized') {
+						// not_authorized
+						login();
+					} else {
+						// not_logged_in
+						login();
+					}
+				});
+
+			};
+
+			// Load the SDK Asynchronously
+			(function(d){
+				var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+				if (d.getElementById(id)) {return;}
+				js = d.createElement('script'); js.id = id; js.async = true;
+				js.src = "//connect.facebook.net/en_US/all.js";
+				ref.parentNode.insertBefore(js, ref);
+			}(document));
+
+			(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=500405439981089";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+		
+
+		<!-- quobit -->
 		<div class="quobit_container">
 
 			<!-- Login -->
 			<div id="login_area">
 				<div id="login_overlay"></div>
 				<div id="login">
-					<div class="row">
-						<div id="signin_form" class="span5">
-							<legend>Sign in</legend>
-							<div id="signin_error" class="error_msg"></div>
-							<label>Email</label>
-							<input id="signin_email" type="text" name="name_signin_email" placeholder="Email">
-							<label>Password</label>
-							<input id="signin_password" type="text" name="name_signin_password" placeholder="Password">
-							<button id="signin_btn" type="submit" class="btn">Sign in</button>
-						</div>
-						<div id="login_separator" class="span2"></div>
-						<div id="register_form" class="span5">
-							<legend>Register</legend>
-							<div id="register_error" class="error_msg"></div>
-							<label>Email</label>
-							<input id="register_email" type="text" name="name_register_email" placeholder="Email">
-							<label>Password</label>
-							<input id="register_password" type="text" name="name_register_password" placeholder="Password">
-							<label>Full Name</label>
-							<input id="register_username" type="text" name="name_register_username" placeholder="Full name">
-							<div><button id="register_btn" type="submit" class="btn">Register</button></div>
-						</div>
-					</div>
+					<div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
 				</div>
 			</div>
 
