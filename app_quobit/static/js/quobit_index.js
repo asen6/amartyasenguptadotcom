@@ -1,8 +1,6 @@
 //index.js
 
 // PROJECTS TO DO
-// FB login
-//		--> Implemented basic function - still needs more testing to make sure that signout, signin working properly
 // Add events concept
 
 
@@ -177,11 +175,13 @@ function signin(email, password){
 }
 
 function signout_clicked(){
-	FB.logout(function(response) {
-		// user is now logged out
-		username = null;
-		window.location.href = base_url;
-	});
+	if (FB.getAuthResponse()) {
+		FB.logout(function(response) {
+			// user is now logged out
+			username = null;
+			window.location.href = base_url;
+		});
+	}
 }
 
 // Event handler for clicking the post button
@@ -281,10 +281,9 @@ function login() {
 
 function set_user() {
 	FB.api('/me', function(response) {
-		console.log('Good to see you, ' + response.name + '.');
 		username = response.name;
+		hide_login();
 	});
-	hide_login();
 }
 
 function testAPI() {
@@ -296,6 +295,7 @@ function testAPI() {
 
 // Show login overlay
 function show_login() {
+	
 	$("#login_area").fadeIn();
 }
 
@@ -318,6 +318,7 @@ function request_update(interrupt, callback) {
 		window.clearTimeout(update_timeout);
 		update_timeout == null;
 	}
+
 	get_updates(callback);
 }
 
