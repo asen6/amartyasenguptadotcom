@@ -1,9 +1,18 @@
 //index.js
 
 // PROJECTS TO DO
-// FB login
-//		--> Implemented basic function - still needs more testing to make sure that signout, signin working properly
 // Add events concept
+// --> <> Update models.py to with new "Event" model and connect this to posts
+// --> <> Update posting to include event id
+// --> <> "Events" page and update urls.py
+// --> <> "Create new event" functionality
+// --> Need to figure out how to send event ID to "Event" page
+// --> Move login from "Event" to "Events"
+// --> Fix user handling
+// --> Make things look pretty
+// --> Make sure valid event was entered ("Create new event" function)
+// Add user to our own database (also update models to include this)
+// Create "Develop" subdomain
 
 
 // 		TABLE OF CONTENTS
@@ -47,6 +56,7 @@ var phrase = ['minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
 var timelength = [60, 3600, 86400, 604800, 2630880, 31570560, 315705600];
 
 // May be set in index.php
+var event_id = 156;
 var username = null;
 
 var collapse_seconds = 50;
@@ -195,7 +205,7 @@ function post_clicked(){
 	if (qpost_text == '') { return;}
 
 	// Add qpost to database
-	$.post(base_url + "send_qpost/", "new_qpost_text=" + qpost_text + "&username=" + username, function(data, status, xhr) {
+	$.post(base_url + "send_qpost/", "new_qpost_text=" + qpost_text + "&event_id=" + event_id + "&username=" + username, function(data, status, xhr) {
 		// change id of the qpost added above to the one given to it by the server
 		if (data['qpost_id'] >= 0) {
 			var actual_qpost_id = data['qpost_id'];
@@ -337,7 +347,7 @@ function get_updates(callback) {
 		last_qreply_id = qposts[current_chat_id].last_update_qreply_id;
 	}
 
-	update_request = $.getJSON(base_url + "get_all_qposts_and_qreplies/", "current_chat_id=" + current_chat_id + "&last_qreply_id=" + last_qreply_id,
+	update_request = $.getJSON(base_url + "get_all_qposts_and_qreplies/", "event_id=" + event_id + "&current_chat_id=" + current_chat_id + "&last_qreply_id=" + last_qreply_id,
 		function(data, status, xhr) {
 			var latest_qposts_list = data['qposts'];
 			var latest_qreplies_list = data['qreplies'];

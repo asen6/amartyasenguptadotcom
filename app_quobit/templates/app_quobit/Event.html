@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<title>quobit</title>
+    	{% load static %}
+		{% get_static_prefix as STATIC_PREFIX %}
+		<!-- Bootstrap -->
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/static-collected/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static-collected/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<!-- Custom CSS files -->
+    	<link type="text/css" rel="stylesheet" href="/static-collected/stylesheets/main.css" />
+    	<link type="text/css" rel="stylesheet" href="/static-collected/css/quobit.css" />
+    	<!-- Typekit  
+		<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
+		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		-->
+		<!-- Javascript -->
+		<script src="/static-collected/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/static-collected/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/static-collected/js/qpost.js" type="text/javascript" charset="utf-8"></script>
+		<!-- Google Analytics -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-35201804-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+	</head>
+	<body>
+		<!-- FB login code -->
+		<div id="fb-root"></div>
+		<script>
+			// Additional JS functions here
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId      : '500405439981089', // App ID
+					channelUrl : '//www.amartyasengupta.com/projects/quobit/channel', // Channel File
+					status     : true, // check login status
+					cookie     : true, // enable cookies to allow the server to access the session
+					xfbml      : true  // parse XFBML
+				});
+
+				// Additional init code here
+				FB.getLoginStatus(function(response) {
+					if (response.status === 'connected') {
+						// connected
+						set_user();
+					} else if (response.status === 'not_authorized') {
+						// not_authorized
+						login();
+					} else {
+						// not_logged_in
+						login();
+					}
+				});
+
+			};
+
+			// Load the SDK Asynchronously
+			(function(d){
+				var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+				if (d.getElementById(id)) {return;}
+				js = d.createElement('script'); js.id = id; js.async = true;
+				js.src = "//connect.facebook.net/en_US/all.js";
+				ref.parentNode.insertBefore(js, ref);
+			}(document));
+
+			(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=500405439981089";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+		
+
+		<!-- quobit -->
+		<div class="quobit_container">
+
+			<!-- Login -->
+			<div id="login_area">
+				<div id="login_overlay"></div>
+				<div id="login">
+					<div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
+				</div>
+			</div>
+
+			<!-- Navbar -->
+			<div class="navbar navbar-inverse quobit_navbar">
+				<div class="navbar-inner">
+					<a class="brand" href="#">quobit</a>
+					<ul class="nav pull-right">
+						<li><a id="signout_link" href="#">sign out</a></li>
+					</ul>
+				</div>
+			</div>
+
+	  		<!-- Body -->
+		  	<div id="quobit_body">
+		  		
+		  		<!-- Posts -->
+				<div id="qposts_area">
+					<textarea id="qposts_posttext" name="new_qpost_text" rows="3"></textarea>
+					<button id="qposts_postbtn" type="submit" class="btn">Post</button>
+					<div id="qposts"></div>
+				</div>
+
+			  	<!-- Replies -->
+			  	<div id="qreplies_area">
+			  		<div id="qreplies_content">
+						<div id="qreplies_spacer">
+							<div id="qreplies_scroller">
+								<div id="qreplies"></div>
+							</div>
+						</div>
+						<div id="qreplies_replytextboxarea">
+							<textarea id="qreplies_replytext" name="new_qreply_text" rows="3"></textarea>
+							<button id="qreplies_replybtn" type="submit" class="btn">Reply</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="clear"></div>
+
+			</div>
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

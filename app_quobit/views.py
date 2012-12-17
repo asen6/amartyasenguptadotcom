@@ -20,30 +20,28 @@ from django.utils import simplejson
 
 import time
 
+from app_quobit.models import QEvent, QPost, QReply
 
 
-from app_quobit.models import QPost, QReply, User
+def events(request):
+	latest_events_list = QEvent.objects.all().order_by('-created_on')
+	return direct_to_template(request, 'app_quobit/events.html',
+		{'latest_events_list': latest_events_list})
+
+def create_event(request):
+	if request.method == 'POST':
+		new_title = request.POST.get('new_event_title')
+		new_created_by = request.POST.get('new_event_created_by')
+
+		new_event = QEvent(title=new_title, created_by=new_created_by)
+		new_event.save()
+		return HttpResponseRedirect("/projects/quobit/")
+	else:
+		return HttpResponse()
 
 
-def discussion(request):
-	return direct_to_template(request, 'app_quobit/index.html')
-	# if QPost.objects.all().count() == 0:
-	# 	return direct_to_template(request, 'app_quobit/index.html')
-	# else:
-	# 	latest_qpost = QPost.objects.all().order_by('-published_on')[0]
-	# 	latest_qpost_id = str(latest_qpost.id)
-	# 	return HttpResponseRedirect('/projects/quobit/qpost_replies/'+latest_qpost_id+'/')
-
-
-# def post_detail(request, qpost_id):
-# 	latest_qposts_list = QPost.objects.all().order_by('-published_on')
-# 	selected_qpost = get_object_or_404(QPost, id=qpost_id)
-# 	latest_qreplies_list = QReply.objects.filter(qpost=selected_qpost)
-# 	latest_qreplies_list = latest_qreplies_list.order_by('published_on')
-# 	return direct_to_template(request, 'app_quobit/index.html',
-# 		{'latest_qposts_list': latest_qposts_list,
-# 		'latest_qreplies_list': latest_qreplies_list,
-# 		'selected_qpost': selected_qpost})
+def event(request, event_id):
+	return direct_to_template(request, 'app_quobit/event.html')
 
 def register_user(request):
 	if request.method == 'POST':
@@ -94,14 +92,13 @@ def signin_user(request):
 	else:
 		return HttpResponse()
 
-
-
-
 def enter_qpost(request):
 	if request.method == 'POST':
+		event_id = request.POST.get('event_id')
+		selected_event = get_object_or_404(QEvent, id=event_id)
 		username = request.POST.get('username')
 		text = request.POST.get('new_qpost_text')
-		qpost = QPost(author=username, content=text)
+		qpost = QPost(qevent=selected_event, author=username, content=text)
 		qpost.save()
 		qpost_id = qpost.id
 		items_to_return = {'qpost_id': qpost_id}
@@ -125,10 +122,11 @@ def enter_qreply(request):
 
 
 def get_all_qposts_and_qreplies(request):
+	event_id = int(request.GET.get('event_id'))
 	current_chat_id = request.GET.get('current_chat_id')
 	last_qreply_id = int(request.GET.get('last_qreply_id'))
 
-	latest_qposts_list = QPost.objects.all().order_by('published_on')
+	latest_qposts_list = QPost.objects.all().filter(qevent__id=event_id).order_by('published_on')
 	latest_qreplies_list = QReply.objects.filter(qpost__id=current_chat_id).order_by('published_on')
 
 	qposts = []

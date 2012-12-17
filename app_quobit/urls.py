@@ -8,7 +8,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('app_quobit.views',
-    (r'^$', 'discussion'),
+    (r'^$', 'events'),
+    (r'^event/(?P<event_id>[\w,-]+)/$', 'event'),
+    (r'^create_event/$', 'create_event'),
     (r'^register/$', 'register_user'),
     (r'^signin/$', 'signin_user'),
     (r'^send_qpost/$', 'enter_qpost'),

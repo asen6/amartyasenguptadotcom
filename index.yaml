@@ -26,10 +26,20 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: app_quobit_qevent
+  properties:
+  - name: __key__
+    direction: desc
+
 - kind: app_quobit_qpost
   properties:
   - name: __key__
     direction: desc
+
+- kind: app_quobit_qpost
+  properties:
+  - name: qevent_id
+  - name: published_on
 
 - kind: app_quobit_qreply
   properties:
