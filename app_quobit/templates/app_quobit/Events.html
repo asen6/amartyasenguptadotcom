@@ -15,6 +15,9 @@
 		<script type="text/javascript" src="//use.typekit.net/eba8mbj.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 		-->
+		<!-- Javascript -->
+		<script src="/static-collected/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/static-collected/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
 		<!-- Google Analytics -->
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
@@ -80,15 +83,6 @@
 		<!-- quobit -->
 		<div class="quobit_container">
 
-
-			<!-- Login -->
-			<div id="login_area">
-				<div id="login_overlay"></div>
-				<div id="login">
-					<div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
-				</div>
-			</div>
-
 			<!-- Navbar -->
 			<div class="navbar navbar-inverse quobit_navbar">
 				<div class="navbar-inner">
@@ -112,7 +106,7 @@
 									<h4><a href="/projects/quobit/event/{{ qevent.id }}">
 										{{ qevent.title }}
 									</a></h3>
-									<h5><small><em>Created by {{ qevent.created_by }} on {{ qevent.created_on }}</em></small></h5>
+									<h5><small><em>Created by {{ qevent.created_by_username }} on {{ qevent.created_on }}</em></small></h5>
 								</div>
 							{% endfor %}
 						{% else %}
@@ -122,14 +116,13 @@
 
 					<!-- Add new event -->
 					<div class="span4">
+						<div id="testinput"></div>
 						<form method="post" action="/projects/quobit/create_event/">
 							<fieldset>
 								<legend>Add a new event</legend>
 								<label>Event Title</label>
 								<input name="new_event_title" type="text" placeholder="Event Title">
-								<label>Created By</label>
-								<input name="new_event_created_by" type="text" placeholder="Created By">
-								<button type="submit" class="btn">Submit</button>
+								<button type="submit" class="btn">Create event</button>
 							</fieldset>
 						</form>
 					</div>

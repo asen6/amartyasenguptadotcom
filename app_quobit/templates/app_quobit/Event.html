@@ -17,7 +17,7 @@
 		-->
 		<!-- Javascript -->
 		<script src="/static-collected/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/static-collected/js/quobit_index.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/static-collected/js/quobit_event.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/static-collected/js/qpost.js" type="text/javascript" charset="utf-8"></script>
 		<!-- Google Analytics -->
 		<script type="text/javascript">
@@ -46,20 +46,6 @@
 					xfbml      : true  // parse XFBML
 				});
 
-				// Additional init code here
-				FB.getLoginStatus(function(response) {
-					if (response.status === 'connected') {
-						// connected
-						set_user();
-					} else if (response.status === 'not_authorized') {
-						// not_authorized
-						login();
-					} else {
-						// not_logged_in
-						login();
-					}
-				});
-
 			};
 
 			// Load the SDK Asynchronously
@@ -84,18 +70,15 @@
 		<!-- quobit -->
 		<div class="quobit_container">
 
-			<!-- Login -->
-			<div id="login_area">
-				<div id="login_overlay"></div>
-				<div id="login">
-					<div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
-				</div>
-			</div>
-
 			<!-- Navbar -->
 			<div class="navbar navbar-inverse quobit_navbar">
 				<div class="navbar-inner">
-					<a class="brand" href="#">quobit</a>
+					<a class="brand" href="/projects/quobit/">quobit</a>
+					<ul class="nav pull-left">
+						{% if qevent %}
+							<li><a id="event_title" href="#"> > {{ qevent.title }}</a></li>
+						{% endif %}
+					</ul>
 					<ul class="nav pull-right">
 						<li><a id="signout_link" href="#">sign out</a></li>
 					</ul>

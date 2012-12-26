@@ -57,6 +57,11 @@ indexes:
   - name: published_on
     direction: desc
 
+- kind: app_quobit_user
+  properties:
+  - name: __key__
+    direction: desc
+
 - kind: app_writings_article
   properties:
   - name: __key__

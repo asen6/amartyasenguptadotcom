@@ -4,3 +4,4 @@ from django.contrib import admin
 admin.site.register(QEvent)
 admin.site.register(QPost)
 admin.site.register(QReply)
+admin.site.register(User)
